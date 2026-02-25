@@ -2,6 +2,7 @@
 
 
 Grupo: Hidroplet
+Membros: Alex & Allison
 
     Projeto FlowState
 
@@ -19,4 +20,7 @@ Grupo: Hidroplet
     (Media3)
     Em questão de jogabilidade, este é um jogo 2D de plataforma com grande ênfase na fluidez e precisão de movimento.
     (Media4)
-    Sera uma progressão simples de nível para nível com checkpoints no meio de cada. Não haverá nada a se preocupar além de seguir em frente e 
+    Sera uma progressão simples de nível para nível com checkpoints espalhados por cada. Não haverá nada do que se preocupar além de seguir em frente e desfrutar do desenrolar do enredo.
+    (Media5)
+    
+    
