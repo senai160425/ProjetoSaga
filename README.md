@@ -2,9 +2,10 @@
 
 
 Grupo: Hidroplet
-  Projeto FlowState
 
-    O Grupo Hidroplet tem como objetivo, em parceria com Guardiãs das Águas, a criação de uma plataforma web focada na conscientização do tratamento e saneamento de águas e o impacto ambiental (positivo e negativo) o qual cada indivíduo é capaz.
+    Projeto FlowState
+
+      O Grupo Hidroplet tem como objetivo, em parceria com Guardiãs das Águas, a criação de uma plataforma web focada na conscientização do tratamento e saneamento de águas e o impacto ambiental (positivo e negativo) o qual cada indivíduo é capaz.
     Com o processo de conscientização sendo uma tarefa com maior delegação à página web, nós iremos introduzir um curto jogo que explora tais temas para complementar.
     Este jogo é o projeto FlowState, o tema desta apresentação.
 
