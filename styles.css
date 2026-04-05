@@ -20,12 +20,22 @@
   --accent:       #4af7d4;
   --text-muted:   rgba(240,248,255,.55);
 
-  --font-title:   'Cinzel', serif;
-  --font-body:    'Raleway', sans-serif;
+  --font-title:   'Silkscreen', serif;
+  --font-body:    'Press Start 2P', sans-serif;
 
   --section-pad:  clamp(80px, 10vw, 140px) clamp(24px, 6vw, 100px);
   --radius:       12px;
   --transition:   .4s cubic-bezier(.25,.8,.25,1);
+}
+
+h1.hero-title {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  letter-spacing: -2px;
+}
+
+body {
+  image-rendering: pixelated; 
+  -webkit-font-smoothing: none;
 }
 
 html { scroll-behavior: smooth; font-size: 16px; }
