@@ -1,8 +1,3 @@
-/* ═══════════════════════════════════════════════════════════
-   FlowState — script.js
-   Scroll animations, particles, nav, interactions
-   ═══════════════════════════════════════════════════════════ */
-
 /* ── Navbar scroll effect ─────────────────────────────────── */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -41,12 +36,20 @@ document.querySelectorAll(revealSelectors).forEach(el => {
   revealObserver.observe(el);
 });
 
-/* ── Particles ────────────────────────────────────────────── */
+/* ── Particles ────────────────────── */
 function createParticles() {
-  const container = document.getElementById('particles');
+  const container = document.getElementById('particles') || document.querySelector('.hero-gif-bg');
   if (!container) return;
 
-  const count = 28;
+  let pContainer = document.querySelector('.particles-js-container');
+  if(!pContainer){
+    pContainer = document.createElement('div');
+    pContainer.className = 'particles-js-container';
+    pContainer.style.cssText = 'position:absolute; inset:0; pointer-events:none; z-index:1;';
+    container.appendChild(pContainer);
+  }
+
+  const count = 25;
   for (let i = 0; i < count; i++) {
     const p = document.createElement('div');
     p.classList.add('particle');
@@ -57,167 +60,115 @@ function createParticles() {
     const del  = Math.random() * 12;
 
     p.style.cssText = `
+      position: absolute;
+      background: rgba(0, 229, 200, 0.4);
+      border-radius: 50%;
       width: ${size}px;
       height: ${size}px;
       left: ${left}%;
-      bottom: ${Math.random() * 20}%;
+      bottom: -10px;
       --dur: ${dur}s;
       --delay: ${del}s;
-      opacity: 0;
+      animation: float-up var(--dur) ease-in var(--delay) infinite;
     `;
-    container.appendChild(p);
+    pContainer.appendChild(p);
   }
 }
-createParticles();
+window.addEventListener('DOMContentLoaded', createParticles);
 
-/* ── Active nav highlight on scroll ──────────────────────── */
-const sections = document.querySelectorAll('section[id]');
-const navItems = document.querySelectorAll('.nav-links a');
-
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.getAttribute('id');
-      navItems.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
-      });
-    }
-  });
-}, { threshold: 0.4 });
-
-sections.forEach(s => sectionObserver.observe(s));
-
-/* ── Timeline items reveal on scroll ─────────────────────── */
-const tlItems = document.querySelectorAll('.tl-item');
-const tlObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.style.opacity = entry.target.classList.contains('done') ? '1' : '.45';
-        entry.target.style.transition = 'opacity .5s ease, transform .5s ease';
-      }, i * 150);
-    }
-  });
-}, { threshold: 0.2 });
-tlItems.forEach(item => tlObserver.observe(item));
-
-/* ── Stat cards counter animation ────────────────────────── */
-function animateValue(el, start, end, duration) {
-  const range = end - start;
-  const startTime = performance.now();
-  const step = (now) => {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const ease = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.floor(start + range * ease).toLocaleString('pt-BR');
-    if (progress < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-}
-
-/* ── Download button placeholder feedback ────────────────── */
-const downloadBtn = document.getElementById('download-btn');
-const webglBtn    = document.getElementById('webgl-btn');
-
+/* ── Toast Feedback ───────────────────── */
 function showToast(message) {
   const existing = document.querySelector('.toast');
   if (existing) existing.remove();
 
   const toast = document.createElement('div');
-  toast.classList.add('toast');
+  toast.className = 'toast';
   toast.textContent = message;
   toast.style.cssText = `
     position: fixed;
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: rgba(0,229,200,.15);
-    border: 1px solid rgba(0,229,200,.4);
+    background: rgba(3, 21, 40, 0.9);
+    border: 1px solid rgba(0, 229, 200, 0.4);
     color: #f0f8ff;
-    padding: .9rem 1.8rem;
+    padding: 1rem 2rem;
     border-radius: 50px;
-    font-size: .88rem;
+    font-size: 0.9rem;
     font-family: 'Raleway', sans-serif;
-    letter-spacing: .05em;
-    backdrop-filter: blur(12px);
-    z-index: 9999;
+    backdrop-filter: blur(10px);
+    z-index: 10000;
     opacity: 0;
-    transition: opacity .3s, transform .3s;
-    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   `;
   document.body.appendChild(toast);
 
-  requestAnimationFrame(() => {
+  setTimeout(() => {
     toast.style.opacity = '1';
     toast.style.transform = 'translateX(-50%) translateY(0)';
-  });
+  }, 100);
 
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transform = 'translateX(-50%) translateY(20px)';
-    setTimeout(() => toast.remove(), 350);
-  }, 3000);
+    setTimeout(() => toast.remove(), 400);
+  }, 3500);
 }
 
-if (downloadBtn) {
-  downloadBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    showToast('Download em breve! Acompanhe o projeto no Itch.io.');
-  });
-}
-
-if (webglBtn) {
-  webglBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    showToast('Versão WebGL em produção — disponível na Fase 3!');
-  });
-}
-
-/* ── Smooth parallax on hero ──────────────────────────────── */
-const hero = document.getElementById('hero');
-if (hero) {
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    const heroHeight = hero.offsetHeight;
-    if (scrolled < heroHeight) {
-      const ratio = scrolled / heroHeight;
-      const heroContent = hero.querySelector('.hero-content');
-      if (heroContent) {
-        heroContent.style.transform = `translateY(${ratio * 50}px)`;
-        heroContent.style.opacity   = `${1 - ratio * 1.3}`;
+document.querySelectorAll('.cta-actions a, .nav-cta, .btn-primary[href="#download"]').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const targetId = btn.getAttribute('href');
+    if (targetId === '#' || targetId === '#download') {
+      e.preventDefault();
+      if(targetId === '#download' && btn.classList.contains('btn-primary')) {
+          showToast('Obrigado pelo interesse! O download de Ripple estará disponível em breve.');
+      }
+      if(btn.id === 'download-btn' || btn.classList.contains('btn-large')) {
+          showToast('Preparando os arquivos... O acesso será liberado em breve!');
       }
     }
-  }, { passive: true });
-}
+  });
+});
 
-/* ── Keyboard nav for presentation mode ──────────────────── */
-const sectionIds = ['hero','about','problem','audience','mechanics','gameplay',
-                    'business','diferential','roadmap','download','guardiao','team'];
+/* ── Keyboard nav (Presentation Mode) ─────────────────────── */
+const sectionIds = ['hero', 'about', 'mechanics', 'media', 'team', 'download'];
 let currentSection = 0;
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+  if (['ArrowDown', 'PageDown'].includes(e.key)) {
     e.preventDefault();
     currentSection = Math.min(currentSection + 1, sectionIds.length - 1);
-    const target = document.getElementById(sectionIds[currentSection]);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    scrollToSection(sectionIds[currentSection]);
   }
-  if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+  if (['ArrowUp', 'PageUp'].includes(e.key)) {
     e.preventDefault();
     currentSection = Math.max(currentSection - 1, 0);
-    const target = document.getElementById(sectionIds[currentSection]);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    scrollToSection(sectionIds[currentSection]);
   }
 });
 
-/* Track current section from scroll */
-const allSections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+function scrollToSection(id) {
+  const target = document.getElementById(id);
+  if (target) {
+    const offset = 70; // Compensação da altura da navbar fixa
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = target.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition - offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+  }
+}
+
+/* ── Parallax  ───────────────────────────────── */
+const heroContent = document.querySelector('.hero-content');
 window.addEventListener('scroll', () => {
-  const middle = window.scrollY + window.innerHeight / 2;
-  for (let i = allSections.length - 1; i >= 0; i--) {
-    if (allSections[i].offsetTop <= middle) {
-      currentSection = i;
-      break;
-    }
+  if (window.scrollY < window.innerHeight) {
+    const val = window.scrollY * 0.4;
+    if(heroContent) heroContent.style.transform = `translateY(${val}px)`;
   }
 }, { passive: true });
