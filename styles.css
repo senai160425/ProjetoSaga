@@ -875,6 +875,11 @@ footer {
     grid-template-columns: 1fr;
     min-height: auto;
   }
+   .gallery-item.big.video-container {
+    grid-row: auto;
+    aspect-ratio: 16 / 9;
+    min-height: auto;
+  }
   .gallery-item { min-height: 240px; }
   .gallery-item.big { grid-row: auto; min-height: 320px; }
   .nav-links { display: none; }
