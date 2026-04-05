@@ -20,8 +20,8 @@
   --accent:       #4af7d4;
   --text-muted:   rgba(240,248,255,.55);
 
-  --font-title:   'Silkscreen', serif;
-  --font-body:    'Press Start 2P', sans-serif;
+  --font-title:   'Silkscreen', cursive;
+  --font-body:    'Press Start 2P', cursive;
 
   --section-pad:  clamp(80px, 10vw, 140px) clamp(24px, 6vw, 100px);
   --radius:       12px;
