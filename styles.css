@@ -425,7 +425,8 @@ blockquote {
 }
 .mechanic-list li {
   display: flex;
-  align-items: center;
+  margin-bottom: 1rem;
+  align-items: flex-start;
   gap: .75rem;
   color: var(--white-dim);
 }
