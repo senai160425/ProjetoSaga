@@ -116,17 +116,15 @@ function showToast(message) {
   }, 3500);
 }
 
-document.querySelectorAll('.cta-actions a, .nav-cta, .btn-primary[href="#download"]').forEach(btn => {
+document.querySelectorAll('.cta-actions a, .nav-cta').forEach(btn => {
   btn.addEventListener('click', (e) => {
-    const targetId = btn.getAttribute('href');
-    if (targetId === '#' || targetId === '#download') {
+    const href = btn.getAttribute('href');
+
+    if (href === '#' || href === '#download') {
       e.preventDefault();
-      if(targetId === '#download' && btn.classList.contains('btn-primary')) {
-          showToast('Obrigado pelo interesse! O download de Ripple estará disponível em breve.');
-      }
-      if(btn.id === 'download-btn' || btn.classList.contains('btn-large')) {
-          showToast('Preparando os arquivos... O acesso será liberado em breve!');
-      }
+      showToast('O acesso a Ripple será liberado em breve! Acompanhe as atualizações.');
+    } else {
+      showToast('Iniciando download');
     }
   });
 });
